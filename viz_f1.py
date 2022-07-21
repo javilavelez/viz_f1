@@ -38,6 +38,9 @@ st.table(df_data)
 
 
 # Visualization
+st.markdown('<br></br>',unsafe_allow_html=True)
+st.markdown("**Visualizacion del dataset**")
+
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
 df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_surname']
 df_f1_ranks = df_f1_ranks[['driver_name', 'race_name', 'race_year', 'rank']]
