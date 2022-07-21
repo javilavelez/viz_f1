@@ -37,12 +37,13 @@ df_data = pd.DataFrame(dataset, columns=['Variable','Tipo','Descripción'])
 st.table(df_data)
 
 
-
+# Visualization
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
 df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_surname']
 df_f1_ranks = df_f1_ranks[['driver_name', 'race_name', 'race_year', 'rank']]
-df_f1_ranks['rank'] = df_f1_ranks['rank'].replace('\\N', str(df_f1_ranks['rank'].loc[df_f1_ranks['rank'].str.contains('\d')].astype(int).max()))
-df_f1_ranks['rank'] = df_f1_ranks['rank'].replace('0', str(df_f1_ranks['rank'].loc[df_f1_ranks['rank'].str.contains('\d')].astype(int).max()))
+df_f1_ranks['rank'] = df_f1_ranks['rank'].replace('\\N', np.nan) 
+df_f1_ranks['rank'] = df_f1_ranks['rank'].replace('0', np.nan) 
+df_f1_ranks = df_f1_ranks.dropna()
 df_f1_ranks = df_f1_ranks.drop_duplicates()
 df_f1_ranks = df_f1_ranks.astype({'driver_name': str, 'race_name': str, 'race_year': str, 'rank': int})
 df_f1_ranks = df_f1_ranks.sort_values(by='rank', ascending=False)
@@ -52,18 +53,16 @@ fig = go.Figure()
 driver_list = sorted(list(df_f1_ranks['driver_name'].unique()))
 race_list = sorted(list(df_f1_ranks['race_name'].unique()))
 year_list = sorted(list(df_f1_ranks['race_year'].unique()), reverse=True)
-year_selected = '2021'
 
-# assign colors to type using a dictionary
-colors = {'A':'steelblue',
-          'B':'firebrick'}
+#color_list = px.colors.n_colors('rgb(0, 0, 0)', 'rgb(255, 255, 255)', len(driver_list), colortype='rgb')
+#colors = dict(zip(driver_list, color_list))
 
 for race, year in zip(race_list, year_list):
     fig.add_trace(
         go.Bar(
             x = df_f1_ranks['rank'][(df_f1_ranks['race_name']==race) & (df_f1_ranks['race_year']==year)],
             y = df_f1_ranks['driver_name'][(df_f1_ranks['race_name']==race) & (df_f1_ranks['race_year']==year)],
-            name = race, #marker_color='lightsalmon', 
+            name = race, 
             visible = True, orientation='h'
         )
     )
@@ -119,5 +118,8 @@ fig.update_layout(
     width=1000,
     height=800
 )
+
+fig.update_xaxes(title_text='Position')
+fig.update_yaxes(title_text='Driver')
 
 st.plotly_chart(fig, use_container_width=True)
