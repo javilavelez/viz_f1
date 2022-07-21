@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import plotly.graph_objects as go
+import plotly.express as px
 
 st.title("Visualización circuitos y campeones de la F1 1951 - 2022")
 st.markdown("***Races are won at the track. Championships are won at the factory - Mercedes (2019)***")
@@ -34,18 +36,7 @@ dataset = [
 df_data = pd.DataFrame(dataset, columns=['Variable','Tipo','Descripción'])
 st.table(df_data)
 
-														
-#import plotly.express as px
-#
-#df = px.data.tips()
-#fig = px.bar(df, x="total_bill", y="day", orientation='h')
-##fig.show()
-## Plot!
-#st.plotly_chart(fig, use_container_width=True)
 
-
-import plotly.graph_objects as go
-import plotly.express as px
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
 df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_surname']
