@@ -9,7 +9,7 @@ st.markdown("***Races are won at the track. Championships are won at the factory
 st.markdown('<br> La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo. </br>',unsafe_allow_html=True)
 
 st.markdown("**Dataset**")
-st.markdown('<br>El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 1951 hasta la última temporada de 2021.</br>',unsafe_allow_html=True)
+st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 1951 hasta la última temporada de 2021.')
 
 st.markdown("**Descripción del dataset**")
 
@@ -36,12 +36,15 @@ df_data = pd.DataFrame(dataset, columns=['Variable','Tipo','Descripción'])
 st.table(df_data)
 
 st.markdown("**Características del dominio**")
-st.markdown('<br>El gráfico se realizará para todas las personas (hombres, mujeres y no binarios) conocedores de la F1, pero no necesariamente expertos en este tópico. Además, consideramos que el público tiene conocimeinto sobre los números (tipo) y sus aplicaciones (semántica), es decir, saben que dependiendo del contexto el número puede ser año así como también puede ser posición. (Gráfica no diseñada para niños que no saben leer o escribir, por ejemplo). </br>',unsafe_allow_html=True)
+st.markdown('El gráfico se realizará para:')
+st.markdown('1. Todas las personas (hombres, mujeres y no binarios)')
+st.markdown('2. Personas conocedoras de la F1, pero no necesariamente expertas en este tópico.')
+st.markdown('3. Personas con conocimeinto sobre los números (tipo) y sus aplicaciones (semántica), es decir, saben que dependiendo del contexto el número puede ser año así como también puede ser posición. (Gráfica no diseñada para niños que no saben leer o escribir, por ejemplo).')
 
 st.markdown("**Abstracción de tareas**")
-st.markdown('<br> 1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 a través del tiempo.')
+st.markdown('1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 a través del tiempo.')
 st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
-st.markdown('3. Identificar a los mejores pilotos desde 1950 - 2022. </br>')
+st.markdown('3. Identificar a los mejores pilotos desde 1950 - 2022.)
 
 # Visualization
 st.markdown('<br></br>',unsafe_allow_html=True)
