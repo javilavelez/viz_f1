@@ -40,7 +40,7 @@ st.markdown('<br>El gráfico se realizará para todas las personas (hombres, muj
 
 st.markdown("**Abstracción de tareas**")
 st.markdown('<br> 1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 a través del tiempo.')
-st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo'.)
+st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
 st.markdown('3. Identificar a los mejores pilotos desde 1950 - 2022. </br>')
 
 # Visualization
