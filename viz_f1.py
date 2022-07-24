@@ -57,7 +57,6 @@ df_data = pd.DataFrame(dataset, columns=['Variable','Tipo','Descripción'])
 st.table(df_data)
 
 # Visualization
-st.markdown('<br></br>',unsafe_allow_html=True)
 st.markdown("**Visualizacion del dataset**")
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
