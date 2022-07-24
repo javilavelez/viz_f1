@@ -144,3 +144,19 @@ fig.update_xaxes(title_text='Position')
 fig.update_yaxes(title_text='Driver')
 
 st.plotly_chart(fig, use_container_width=True)
+
+###################### PRUEBA ######################
+
+import streamlit as st
+import streamlit.components.v1 as components
+import bar_chart_race as bcr
+import base64
+
+df = bcr.load_dataset("covid19_tutorial")
+html_str = bcr.bar_chart_race(df=df).data
+
+start = html_str.find('base64,')+len('base64,')
+end = html_str.find('">')
+
+video = base64.b64decode(html_str[start:end])
+st.video(video)
