@@ -1,10 +1,12 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 import numpy as np
-import plotly.graph_objects as go
-import plotly.express as px
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+from matplotlib import cm
 
-st.title("Los pilotos y fabricantes de la F1 a través del tiempo (2004 - 2021)")
+st.title("Los pilotos y fabricantes de la F1 a través del tiempo (1951 - 2021)")
 st.markdown("***Races are won at the track. Championships are won at the factory - Mercedes (2019)***")
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
 
@@ -16,7 +18,7 @@ st.markdown('A su vez, los automóviles utilizados son monoplazas con la última
 st.markdown('El inicio de la Fórmula 1 moderna se remonta al año 1950, en el que participaron escuderías como Ferrari, Alfa Romeo y Maserati, algunas reemplazadas por otras nuevas como McLaren, Williams y Red Bull.')
 st.markdown('Por su parte, los pilotos deben contar con la superlicencia de la FIA para competir, que se obtiene por los resultados en otros campeonatos.')
 
-st.markdown('*El siguiente proyecto tiene como propósito ilustrar la trayectoria los pilotos y fabricantes de autos en la F1 para el periodo 2004-2021.*')
+st.markdown('*El siguiente proyecto tiene como propósito ilustrar la trayectoria de los pilotos y fabricantes de autos de la F1 a través del tiempo.*')
 
 st.markdown("**Características del dominio**")
 st.markdown('El gráfico se realizará para:')
@@ -25,12 +27,12 @@ st.markdown('2. Personas conocedoras de la F1, pero no necesariamente expertas e
 st.markdown('3. Personas con conocimeinto sobre los números (tipo) y sus aplicaciones (semántica), es decir, saben que dependiendo del contexto el número puede ser año así como también puede ser posición. (Gráfica no diseñada para niños que no saben leer o escribir, por ejemplo).')
 
 st.markdown("**Abstracción de tareas**")
-st.markdown('1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 para los últimos 18 años.')
+st.markdown('1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 a través del tiempo.')
 st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
-st.markdown('3. Identificar el top 10 de los mejores pilotos desde 2004 - 2021.')
+st.markdown('3. Identificar a los mejores pilotos desde 1950 - 2021.')
 
 st.markdown("**Abstracción de datos**")
-st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 2004 hasta la última temporada de 2021.')
+st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 1951 hasta la última temporada de 2021.')
 
 st.markdown("**Descripción del dataset**")
 
@@ -61,86 +63,76 @@ st.markdown("**Visualizacion del dataset**")
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
 df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_surname']
-df_f1_ranks = df_f1_ranks[['driver_name', 'race_name', 'race_year', 'rank']]
-df_f1_ranks['rank'] = df_f1_ranks['rank'].replace('\\N', np.nan) 
-df_f1_ranks['rank'] = df_f1_ranks['rank'].replace('0', np.nan) 
-df_f1_ranks = df_f1_ranks.dropna()
+df_f1_ranks = df_f1_ranks[['driver_name', 'race_name', 'race_date', 'race_year', 'points']]
 df_f1_ranks = df_f1_ranks.drop_duplicates()
-df_f1_ranks = df_f1_ranks.astype({'driver_name': str, 'race_name': str, 'race_year': str, 'rank': int})
-df_f1_ranks = df_f1_ranks.sort_values(by='rank', ascending=False)
+df_f1_ranks = df_f1_ranks.astype({'driver_name': str, 'race_name': str, 'race_date': str, 'race_year': str, 'points': float})
+df_f1_ranks["race_date"] = pd.to_datetime(df_f1_ranks["race_date"])
 
-fig = go.Figure()
+last_race_list = df_f1_ranks.groupby(by=["race_date"]).max().index.values
+df_f1_ranks = df_f1_ranks[df_f1_ranks["race_date"].isin(last_race_list)]
+df_f1_ranks = df_f1_ranks[df_f1_ranks['race_year'].astype(int)>=2004]
 
+df_f1_ranks = df_f1_ranks.sort_values(by=['race_date', 'points'], ascending=[True, False])
+df_set_index = df_f1_ranks.set_index(['race_date', 'race_year'])
+df_pivoted = df_set_index.pivot_table(values='points', index=df_set_index.index, columns='driver_name', aggfunc='max', sort=False)
 driver_list = sorted(list(df_f1_ranks['driver_name'].unique()))
-race_list = sorted(list(df_f1_ranks['race_name'].unique()))
-year_list = sorted(list(df_f1_ranks['race_year'].unique()), reverse=True)
 
-#color_list = px.colors.n_colors('rgb(0, 0, 0)', 'rgb(255, 255, 255)', len(driver_list), colortype='rgb')
-#colors = dict(zip(driver_list, color_list))
 
-for race, year in zip(race_list, year_list):
-    fig.add_trace(
-        go.Bar(
-            x = df_f1_ranks['rank'][(df_f1_ranks['race_name']==race) & (df_f1_ranks['race_year']==year)],
-            y = df_f1_ranks['driver_name'][(df_f1_ranks['race_name']==race) & (df_f1_ranks['race_year']==year)],
-            name = race, 
-            visible = True, orientation='h'
-        )
-    )
-    
-    
-buttons_1 = []
+cmap=cm.get_cmap('tab20b', len(driver_list))
+color_dict = dict(zip(driver_list, cmap.colors))
 
-for i, race in enumerate(race_list):
-    args = [False] * len(race_list)
-    args[i] = True
-    
-    button_1 = dict(label = race,
-                  method = "update",
-                  args=[{"visible": args}])
-    
-    buttons_1.append(button_1)
-    
-    
-buttons_2 = []
+db = df_pivoted
+db = db.rename_axis('keys').reset_index()
 
-for i, year in enumerate(year_list):
-    args = [False] * len(year_list)
-    args[i] = True
+db.index = range(0,len(db.index)*5,5)
+row_nums = [i for i in range(0,(len(db.index)+1)) if i % 5 != 0 ]
+empty = pd.DataFrame(np.nan, index= row_nums, columns = db.columns)
+
+expand_df = pd.concat([db, empty]).sort_index()
+expand_df = expand_df.interpolate()
+expand_df = expand_df.fillna(method='ffill')
+
+def update(i):
+    ax.clear()
+    ax.set_facecolor(plt.cm.Greys(0.2))
     
-    button_2 = dict(label = year,
-                  method = "update",
-                  args=[{"visible": args}])
+    one_row = expand_df.iloc[i][1:]
+    one_row_ascending = one_row.sort_values(ascending=True)
+    one_row_ascending = one_row_ascending.dropna()
+    characters = one_row_ascending.index
     
-    buttons_2.append(button_2)
+    [spine.set_visible(False) for spine in ax.spines.values()]
+    hbars = ax.barh(y = range(len(characters)),
+           tick_label=one_row_ascending.index,
+           width = one_row_ascending.values,
+           height = 0.8,
+           color = [color_dict[driver_name] for driver_name in characters]
+           )
+    ax.set_title(expand_df['keys'][i][1])
+    #ax.bar_label(hbars, fmt='%.2d')
     
-    
-fig.update_layout(
-    updatemenus=[dict(
-                    active=0,
-                    type="dropdown",
-                    buttons=buttons_1,
-                    x = 0,
-                    y = 1.1,
-                    xanchor = 'left',
-                    yanchor = 'bottom'
-                ), 
-                dict(
-                    active=0,
-                    type="dropdown",
-                    buttons=buttons_2,
-                    x = 0.5,
-                    y = 1.1,
-                    xanchor = 'left',
-                    yanchor = 'bottom'
-                )
-                ], 
-    autosize=False,
-    width=1000,
-    height=800
+
+fig,ax = plt.subplots(#figsize=(10,7),
+                      facecolor = plt.cm.Greys(0.2),
+                      dpi = 150,
+                      tight_layout=True
+                     )
+
+data_anime = FuncAnimation(
+    fig = fig,
+    func = update,
+    frames= len(db),
+    interval=300,
 )
 
-fig.update_xaxes(title_text='Position')
-fig.update_yaxes(title_text='Driver')
+#st.plotly_chart(fig, use_container_width=True)
+components.html(data_anime.to_jshtml(), height=600)
 
-st.plotly_chart(fig, use_container_width=True)
+#HtmlFile = line_ani.to_html5_video()
+#with open("myvideo.html","w") as f:
+#    print(data_anime.to_html5_video(), file=f)
+#    
+#HtmlFile = open("myvideo.html", "r")
+##HtmlFile="myvideo.html"
+#source_code = HtmlFile.read() 
+#components.html(source_code, height = 900,width=900)
