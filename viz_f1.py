@@ -4,7 +4,7 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 
-st.title("Los pilotos y fabricantes de la F1 a través del tiempo (1951 - 2021)")
+st.title("Los pilotos y fabricantes de la F1 a través del tiempo (2004 - 2021)")
 st.markdown("***Races are won at the track. Championships are won at the factory - Mercedes (2019)***")
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
 
@@ -16,7 +16,7 @@ st.markdown('A su vez, los automóviles utilizados son monoplazas con la última
 st.markdown('El inicio de la Fórmula 1 moderna se remonta al año 1950, en el que participaron escuderías como Ferrari, Alfa Romeo y Maserati, algunas reemplazadas por otras nuevas como McLaren, Williams y Red Bull.')
 st.markdown('Por su parte, los pilotos deben contar con la superlicencia de la FIA para competir, que se obtiene por los resultados en otros campeonatos.')
 
-st.markdown('*El siguiente proyecto tiene como propósito ilustrar la trayectoria de los pilotos y fabricantes de autos de la F1 a través del tiempo.*')
+st.markdown('*El siguiente proyecto tiene como propósito ilustrar la trayectoria los pilotos y fabricantes de autos en la F1 para el periodo 2004-2021.*')
 
 st.markdown("**Características del dominio**")
 st.markdown('El gráfico se realizará para:')
@@ -25,12 +25,12 @@ st.markdown('2. Personas conocedoras de la F1, pero no necesariamente expertas e
 st.markdown('3. Personas con conocimeinto sobre los números (tipo) y sus aplicaciones (semántica), es decir, saben que dependiendo del contexto el número puede ser año así como también puede ser posición. (Gráfica no diseñada para niños que no saben leer o escribir, por ejemplo).')
 
 st.markdown("**Abstracción de tareas**")
-st.markdown('1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 a través del tiempo.')
+st.markdown('1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 para los últimos 18 años.')
 st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
-st.markdown('3. Identificar a los mejores pilotos desde 1950 - 2021.')
+st.markdown('3. Identificar el top 10 de los mejores pilotos desde 2004 - 2021.')
 
 st.markdown("**Abstracción de datos**")
-st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 1951 hasta la última temporada de 2021.')
+st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 2004 hasta la última temporada de 2021.')
 
 st.markdown("**Descripción del dataset**")
 
@@ -144,19 +144,3 @@ fig.update_xaxes(title_text='Position')
 fig.update_yaxes(title_text='Driver')
 
 st.plotly_chart(fig, use_container_width=True)
-
-###################### PRUEBA ######################
-
-import streamlit as st
-import streamlit.components.v1 as components
-import bar_chart_race as bcr
-import base64
-
-df = bcr.load_dataset("covid19_tutorial")
-html_str = bcr.bar_chart_race(df=df).data
-
-start = html_str.find('base64,')+len('base64,')
-end = html_str.find('">')
-
-video = base64.b64decode(html_str[start:end])
-st.video(video)
