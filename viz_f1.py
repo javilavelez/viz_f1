@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from matplotlib import cm
+from raceplotly.plots import barplot
 
 st.title("Los pilotos y fabricantes de la F1 a través del tiempo (1951 - 2021)")
 st.markdown("***Races are won at the track. Championships are won at the factory - Mercedes (2019)***")
@@ -66,73 +67,37 @@ df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_
 df_f1_ranks = df_f1_ranks[['driver_name', 'race_name', 'race_date', 'race_year', 'points']]
 df_f1_ranks = df_f1_ranks.drop_duplicates()
 df_f1_ranks = df_f1_ranks.astype({'driver_name': str, 'race_name': str, 'race_date': str, 'race_year': str, 'points': float})
-df_f1_ranks["race_date"] = pd.to_datetime(df_f1_ranks["race_date"])
+df_f1_ranks["race_date"] = pd.to_datetime(df_f1_ranks["race_date"], format='%d-%m-%Y')
 
 last_race_list = df_f1_ranks.groupby(by=["race_date"]).max().index.values
 df_f1_ranks = df_f1_ranks[df_f1_ranks["race_date"].isin(last_race_list)]
 df_f1_ranks = df_f1_ranks[df_f1_ranks['race_year'].astype(int)>=2004]
+df_f1_ranks["race_year"] = pd.to_datetime(df_f1_ranks["race_year"], format='%Y')
 
 df_f1_ranks = df_f1_ranks.sort_values(by=['race_date', 'points'], ascending=[True, False])
-df_set_index = df_f1_ranks.set_index(['race_date', 'race_year'])
-df_pivoted = df_set_index.pivot_table(values='points', index=df_set_index.index, columns='driver_name', aggfunc='max', sort=False)
-driver_list = sorted(list(df_f1_ranks['driver_name'].unique()))
 
-
-cmap=cm.get_cmap('tab20b', len(driver_list))
-color_dict = dict(zip(driver_list, cmap.colors))
-
-db = df_pivoted
-db = db.rename_axis('keys').reset_index()
-
-db.index = range(0,len(db.index)*5,5)
-row_nums = [i for i in range(0,(len(db.index)+1)) if i % 5 != 0 ]
-empty = pd.DataFrame(np.nan, index= row_nums, columns = db.columns)
-
-expand_df = pd.concat([db, empty]).sort_index()
-expand_df = expand_df.interpolate()
-expand_df = expand_df.fillna(method='ffill')
-
-def update(i):
-    ax.clear()
-    ax.set_facecolor(plt.cm.Greys(0.2))
-    
-    one_row = expand_df.iloc[i][1:]
-    one_row_ascending = one_row.sort_values(ascending=True)
-    one_row_ascending = one_row_ascending.dropna()
-    characters = one_row_ascending.index
-    
-    [spine.set_visible(False) for spine in ax.spines.values()]
-    hbars = ax.barh(y = range(len(characters)),
-           tick_label=one_row_ascending.index,
-           width = one_row_ascending.values,
-           height = 0.8,
-           color = [color_dict[driver_name] for driver_name in characters]
-           )
-    ax.set_title(expand_df['keys'][i][1])
-    #ax.bar_label(hbars, fmt='%.2d')
-    
-
-fig,ax = plt.subplots(#figsize=(10,7),
-                      facecolor = plt.cm.Greys(0.2),
-                      dpi = 150,
-                      tight_layout=True
-                     )
-
-data_anime = FuncAnimation(
-    fig = fig,
-    func = update,
-    frames= len(db),
-    interval=300,
+raceplot = barplot(df_f1_ranks,  item_column='driver_name', value_column='points', time_column='race_date', top_entries=10)
+fig=raceplot.plot(item_label = 'Drivers', 
+                  value_label = 'Points', 
+                  time_label = 'Year: ',
+                  frame_duration = 800, 
+                  date_format='%Y-%m-%d', 
+                  orientation='horizontal'
 )
-
-#st.plotly_chart(fig, use_container_width=True)
-#components.html(data_anime.to_jshtml(), height=600)
-
-#HtmlFile = line_ani.to_html5_video()
-with open("myvideo.html","w") as f:
-    print(data_anime.to_html5_video(), file=f)
-    
-HtmlFile = open("myvideo.html", "r")
-##HtmlFile="myvideo.html"
-source_code = HtmlFile.read() 
-components.html(source_code, height = 900,width=900)
+fig.update_layout(
+                title='Top 10 F1 Drivers',
+                autosize=False,
+                width=1000,
+                height=800,
+                paper_bgcolor="lightgray",
+)
+fig.update_layout(
+    font_family="Courier New",
+    font_color="black",
+    title_font_family="Times New Roman",
+    title_font_color="black",
+    legend_title_font_color="black"
+)
+st.plotly_chart(fig, use_container_width=True)
+# Crear aggregacion por año ?
+# Copiar el codigo de barplot y añadir el name para colocar la carrera
