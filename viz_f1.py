@@ -1,9 +1,7 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
 from matplotlib import cm
 from raceplotly.plots import barplot
 
@@ -64,9 +62,9 @@ st.markdown("**Visualizacion del dataset**")
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
 df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_surname']
-df_f1_ranks = df_f1_ranks[['driver_name', 'race_name', 'race_date', 'race_year', 'points']]
+df_f1_ranks = df_f1_ranks[['driver_name', 'cons_name', 'cons_nationality', 'driv_nationality', 'race_name', 'race_date', 'race_year', 'points']]
 df_f1_ranks = df_f1_ranks.drop_duplicates()
-df_f1_ranks = df_f1_ranks.astype({'driver_name': str, 'race_name': str, 'race_date': str, 'race_year': str, 'points': float})
+df_f1_ranks = df_f1_ranks.astype({'driver_name': str, 'cons_name': str, 'cons_nationality': str, 'driv_nationality': str, 'race_name': str, 'race_date': str, 'race_year': str, 'points': float})
 df_f1_ranks["race_date"] = pd.to_datetime(df_f1_ranks["race_date"], format='%d-%m-%Y')
 
 last_race_list = df_f1_ranks.groupby(by=["race_date"]).max().index.values
@@ -76,28 +74,87 @@ df_f1_ranks["race_year"] = pd.to_datetime(df_f1_ranks["race_year"], format='%Y')
 
 df_f1_ranks = df_f1_ranks.sort_values(by=['race_date', 'points'], ascending=[True, False])
 
-raceplot = barplot(df_f1_ranks,  item_column='driver_name', value_column='points', time_column='race_date', top_entries=10)
-fig=raceplot.plot(item_label = 'Drivers', 
+
+st.markdown("***Puntos ganados por piltos en cada carrera***")
+df_f1_ranks_agg_pilotos = df_f1_ranks.groupby(by=['driver_name', 'race_name', 'race_date', 'race_year'], sort=False, as_index=False).sum()
+
+raceplot_1 = barplot(df_f1_ranks_agg_pilotos,  item_column='driver_name',  extra_item='race_name', value_column='points', time_column='race_date', top_entries=10)
+fig_1=raceplot_1.plot(item_label = 'Drivers', 
                   value_label = 'Points', 
-                  time_label = 'Year: ',
-                  frame_duration = 800, 
+                  time_label = 'Race: ',
+                  frame_duration = 300, 
                   date_format='%Y-%m-%d', 
                   orientation='horizontal'
 )
-fig.update_layout(
-                title='Top 10 F1 Drivers',
+fig_1.update_layout(
+                title='Top 10 - Pilotos de F1',
                 autosize=False,
                 width=1000,
                 height=800,
                 paper_bgcolor="lightgray",
 )
-fig.update_layout(
+fig_1.update_layout(
     font_family="Courier New",
     font_color="black",
     title_font_family="Times New Roman",
     title_font_color="black",
     legend_title_font_color="black"
 )
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig_1, use_container_width=True)
+
+
+st.markdown("***Puntos ganados por escuederias en cada carrera***")
+df_f1_ranks_agg_escuederia = df_f1_ranks.groupby(by=['cons_name', 'race_name', 'race_date', 'race_year'], sort=False, as_index=False).sum()
+
+raceplot_2 = barplot(df_f1_ranks_agg_escuederia,  item_column='cons_name',  extra_item='race_name', value_column='points', time_column='race_date', top_entries=5)
+fig_2=raceplot_2.plot(item_label = 'Drivers', 
+                  value_label = 'Points', 
+                  time_label = 'Race: ',
+                  frame_duration = 300, 
+                  date_format='%Y-%m-%d', 
+                  orientation='horizontal'
+)
+fig_2.update_layout(
+                title='Top 5 - Escuderias de F1',
+                autosize=False,
+                width=1000,
+                height=800,
+                paper_bgcolor="lightgray",
+)
+fig_2.update_layout(
+    font_family="Courier New",
+    font_color="black",
+    title_font_family="Times New Roman",
+    title_font_color="black",
+    legend_title_font_color="black"
+)
+st.plotly_chart(fig_2, use_container_width=True)
+
+
+st.markdown("***Puntos ganados por naciones en cada carrera***")
+df_f1_ranks_agg_nation = df_f1_ranks.groupby(by=['cons_nationality', 'race_name', 'race_date', 'race_year'], sort=False, as_index=False).sum()
+
+raceplot_3 = barplot(df_f1_ranks_agg_nation,  item_column='cons_nationality',  extra_item='race_name', value_column='points', time_column='race_date', top_entries=3)
+fig_3=raceplot_3.plot(item_label = 'Drivers', 
+                  value_label = 'Points', 
+                  time_label = 'Race: ',
+                  frame_duration = 300, 
+                  date_format='%Y-%m-%d', 
+                  orientation='horizontal'
+)
+fig_3.update_layout(
+                title='Top 3 - Nacionalidad de Escuderias de F1',
+                autosize=False,
+                width=1000,
+                height=800,
+                paper_bgcolor="lightgray",
+)
+fig_3.update_layout(
+    font_family="Courier New",
+    font_color="black",
+    title_font_family="Times New Roman",
+    title_font_color="black",
+    legend_title_font_color="black"
+)
+st.plotly_chart(fig_3, use_container_width=True)
 # Crear aggregacion por año ?
-# Copiar el codigo de barplot y añadir el name para colocar la carrera
