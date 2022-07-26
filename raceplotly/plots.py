@@ -15,7 +15,7 @@ class barplot(object):
     def __init__(self, df: pd.DataFrame = None, item_column: str = None, value_column: str = None , time_column: str = None , item_color: str = None , top_entries: int = 10, extra_item: str = None):
         self.df = df
         self.item_column = item_column
-        self.extra_item = extra_item        
+        self.extra_item = extra_item
         self.value_column = value_column
         self.time_column = time_column
         self.item_color = item_color
@@ -113,8 +113,7 @@ class barplot(object):
                             textposition='outside',
                             texttemplate='%{x}<br>%{y:.4s}' if self.orientation == 'vertical' else '%{y}<br>%{x:.4s}',
                             textangle = 0,
-                            orientation = 'h' if self.orientation == 'horizontal' else 'v',
-                            #name=snap_data['race_name'].iloc[0]
+                            orientation = 'h' if self.orientation == 'horizontal' else 'v'
                         )
                     ],
                     layout=go.Layout(
@@ -122,24 +121,26 @@ class barplot(object):
                         plot_bgcolor = '#FFFFFF',
                         xaxis={
                             'showline': False,
-                            'visible': True
+                            'visible': True,
+                            'range': (-1, self.top_entries)
                         } if self.orientation == 'vertical' else
                         {
                             'showline': True,
                             'visible': True,
-                            'range': (0, self.df[self.value_column].max())
+                            'range': (0, self.df[self.value_column].max()+1)
                         },
                         yaxis={
                             'showline': True,
                             'visible': True,
-                            'range': (0, self.df[self.value_column].max())
+                            'range': (0, self.df[self.value_column].max()+1)
                         } if self.orientation == 'vertical' else
                         {
                             'showline': False,
-                            'visible': True
+                            'visible': True,
+                            'range': (-1, self.top_entries)
                         },
                         bargap=0.15,
-                        title= title 
+                        title= title
                     ),
                     name = date_str
                 )
@@ -201,21 +202,23 @@ class barplot(object):
                 plot_bgcolor = '#FFFFFF',
                 xaxis={
                     'showline': False,
-                    'visible': False
+                    'visible': True,
+                    'range': (-1, self.top_entries)
                 } if self.orientation == 'vertical' else
                 {
                     'showline': True,
                     'visible': True,
-                    'range': (0, self.df[self.value_column].max())
+                    'range': (0, self.df[self.value_column].max()+1)
                 },
                 yaxis={
                     'showline': True,
                     'visible': True,
-                    'range': (0, self.df[self.value_column].max())
+                    'range': (0, self.df[self.value_column].max()+1)
                 } if self.orientation == 'vertical' else
                 {
                     'showline': False,
-                    'visible': False
+                    'visible': True,
+                    'range': (-1, self.top_entries)
                 },
                 bargap=0.15,
                 title= self.title
