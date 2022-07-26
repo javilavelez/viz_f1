@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from raceplotly.plots import barplot
 
-st.title("Los pilotos y fabricantes de la F1 a través del tiempo (1951 - 2021)")
+st.title("Los pilotos y fabricantes de la F1 a través del tiempo (2004 - 2021)")
 st.markdown("***Races are won at the track. Championships are won at the factory - Mercedes (2019)***")
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
 
@@ -28,10 +28,10 @@ st.markdown('3. Personas con conocimeinto sobre los números (tipo) y sus aplica
 st.markdown("**Abstracción de tareas**")
 st.markdown('1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 a través del tiempo.')
 st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
-st.markdown('3. Identificar a los mejores pilotos desde 1950 - 2021.')
+st.markdown('3. Identificar al top 10 de pilotos desde 2004 - 2021.')
 
 st.markdown("**Abstracción de datos**")
-st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 1951 hasta la última temporada de 2021.')
+st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 2004 hasta la última temporada de 2021.')
 
 st.markdown("**Descripción del dataset**")
 
