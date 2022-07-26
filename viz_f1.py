@@ -22,11 +22,12 @@ st.markdown('*El siguiente proyecto tiene como propósito ilustrar la trayectori
 st.markdown("**Características del dominio**")
 st.markdown('El gráfico se realizará para:')
 st.markdown('1. Todas las personas (hombres, mujeres y no binarios)')
-st.markdown('2. Personas conocedoras de la F1, pero no necesariamente expertas en este tópico.')
+st.markdown('2. Personas conocedoras del deporte, específicamente de cómo se determinan los points por cada Grand Pix de la F1.')
 st.markdown('3. Personas con conocimeinto sobre los números (tipo) y sus aplicaciones (semántica), es decir, saben que dependiendo del contexto el número puede ser año así como también puede ser posición. (Gráfica no diseñada para niños que no saben leer o escribir, por ejemplo).')
 
 st.markdown("**Abstracción de tareas**")
-st.markdown('1. Presentar la evolución de pilotos y de los fabricantes de los autos en el ranking de la F1 a través del tiempo.')
+st.markdown('1. Presentar la evolución de pilotos en la obtención de puntos por año y su trayectoria 2004-2021')
+st.markdown('2. Ilustrar el ranking anual de los mejores fabricantes de autos de la F1 para el peridoo 2004-2021')
 st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
 st.markdown('3. Identificar al top 10 de pilotos desde 2004 - 2021.')
 
