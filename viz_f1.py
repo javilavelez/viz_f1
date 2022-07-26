@@ -165,7 +165,7 @@ st.plotly_chart(fig_2, use_container_width=True)
 st.markdown("***Campeonatos ganados por naciones de pilotos***")
 
 raceplot_5 = barplot(df_f1_ranks_agg_pais_pilotos_campeones,  item_column='driv_nationality',  value_column='points', time_column='full_date', top_entries=5)
-fig_5=raceplot_4.plot(item_label = 'Paises', 
+fig_5=raceplot_5.plot(item_label = 'Paises', 
                   value_label = 'Campeonatos', 
                   time_label = 'Año: ',
                   frame_duration = 500, 
