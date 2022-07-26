@@ -164,29 +164,29 @@ st.plotly_chart(fig_2, use_container_width=True)
 
 st.markdown("***Campeonatos ganados por naciones de pilotos***")
 
-raceplot_4 = barplot(df_f1_ranks_agg_pais_pilotos_campeones,  item_column='driv_nationality',  value_column='points', time_column='full_date', top_entries=5)
-fig_4=raceplot_4.plot(item_label = 'Paises', 
+raceplot_5 = barplot(df_f1_ranks_agg_pais_pilotos_campeones,  item_column='driv_nationality',  value_column='points', time_column='full_date', top_entries=5)
+fig_5=raceplot_4.plot(item_label = 'Paises', 
                   value_label = 'Campeonatos', 
                   time_label = 'Año: ',
                   frame_duration = 500, 
                   date_format='%Y', 
                   orientation='horizontal'
 )
-fig_4.update_layout(
+fig_5.update_layout(
                 title='Top 5 - Nacionalidad de Pilotos de F1',
                 autosize=False,
                 width=1000,
                 height=800,
                 paper_bgcolor="lightgray",
 )
-fig_4.update_layout(
+fig_5.update_layout(
     font_family="Courier New",
     font_color="black",
     title_font_family="Times New Roman",
     title_font_color="black",
     legend_title_font_color="black"
 )
-st.plotly_chart(fig_4, use_container_width=True)
+st.plotly_chart(fig_5, use_container_width=True)
 
 
 st.markdown("***Capeonatos ganados por escuederias***")
