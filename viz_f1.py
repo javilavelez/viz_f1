@@ -27,9 +27,10 @@ st.markdown('3. Personas con conocimeinto sobre los números (tipo) y sus aplica
 
 st.markdown("**Abstracción de tareas**")
 st.markdown('1. Presentar la evolución de pilotos en la obtención de puntos por año y su trayectoria 2004-2021')
-st.markdown('2. Ilustrar el ranking anual de los mejores fabricantes de autos de la F1 para el peridoo 2004-2021')
-st.markdown('2. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
-st.markdown('3. Identificar al top 10 de pilotos desde 2004 - 2021.')
+st.markdown('2. Ilustrar la cantidad de Campeonatos Mundiales ganados por piloto, fabricante y nacionalidad de la escudería para el peridoo 2004-2021')
+st.markdown('3. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
+st.markdown('4. Identificar al top 10 de pilotos desde 2004 - 2021.')
+st.markdown('5. Conocer qué países hacen los autos con más Campeonatos Mundiales ganados.')
 
 st.markdown("**Abstracción de datos**")
 st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 2004 hasta la última temporada de 2021.')
