@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from raceplotly.plots import barplot
 
-st.title("Los pilotos y fabricantes de la F1 a través del tiempo (2004 - 2021)")
+st.title("Los pilotos y fabricantes de la F1 a través del tiempo)")
 st.markdown("***Races are won at the track. Championships are won at the factory - Mercedes (2019)***")
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
 
@@ -27,10 +27,10 @@ st.markdown('3. Personas con conocimiento sobre los números (tipo) y sus aplica
 
 st.markdown("**Abstracción de tareas**")
 st.markdown('1. Presentar la evolución de pilotos en la obtención de puntos por año y su trayectoria 2004-2021')
-st.markdown('2. Ilustrar la cantidad de Campeonatos Mundiales ganados por piloto, fabricante y nacionalidad de la escudería para el peridoo 2004-2021')
+st.markdown('2. Ilustrar la cantidad de Campeonatos Mundiales ganados por piloto, fabricante y nacionalidad de la escudería y del piloto para el peridoo 1950-2021')
 st.markdown('3. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
-st.markdown('4. Identificar al top 10 de pilotos desde 2004 - 2021.')
-st.markdown('5. Conocer qué países hacen los autos con más Campeonatos Mundiales ganados.')
+st.markdown('4. Identificar al top 10 de pilotos desde 1950 - 2021.')
+st.markdown('5. Conocer de qué país son los autos y pilotos con más Campeonatos Mundiales ganados.')
 
 st.markdown("**Abstracción de datos**")
 st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 2004 hasta la última temporada de 2021.')
