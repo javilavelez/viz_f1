@@ -234,3 +234,4 @@ dataset = [
 df_data = pd.DataFrame(dataset, columns=['Variable','Tipo','Descripción'])
 st.table(df_data)
 
+st.markdown("**Realizado por Estudiantes MIA: Juliana Ávila y Aquiles Martinez**")
