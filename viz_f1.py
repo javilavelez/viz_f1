@@ -14,6 +14,7 @@ st.markdown('La F1 es un deporte global que siguen millones de personas en todo 
 st.markdown('Después de explorar las visualizaciones sabrás quienes son los pilotos más rápidos del mundo, cómo fue su evolución en el deporte y también quiénes son los fabricantes (escuderías) que conforman ese *#DreamTeam*.')
 
 # Visualization
+st.title("¡Comencemos!")
 driv = Image.open('drivers.PNG')
 st.image(driv)
 
