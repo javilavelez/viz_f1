@@ -301,3 +301,5 @@ class barplot(object):
             self.df['color'] = self.df[self.item_column].map(self.item_color)
         else:
             self.df=self.df.rename(columns={self.item_color: "color"})
+            
+            

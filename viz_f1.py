@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
+import plotly.graph_objects as go
 from raceplotly.plots import barplot
 from PIL import Image
 
@@ -81,39 +82,86 @@ df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_
 df_f1_ranks = df_f1_ranks[['driver_name', 'cons_name', 'cons_nationality', 'driv_nationality', 'race_name', 'race_date', 'race_year', 'points']]
 
 df_f1_ranks = df_f1_ranks.drop_duplicates()
+df_f1_ranks = df_f1_ranks.dropna()
 
 df_f1_ranks = df_f1_ranks.astype({'driver_name': str, 'cons_name': str, 'cons_nationality': str, 'driv_nationality': str, 'race_name': str, 'race_date': str, 'race_year': str, 'points': float})
-df_f1_ranks["race_date"] = pd.to_datetime(df_f1_ranks["race_date"], format='%d-%m-%Y')
-df_f1_ranks = df_f1_ranks[df_f1_ranks['race_year'].astype(int)>=2004]
-df_f1_ranks["race_year"] = pd.to_datetime(df_f1_ranks["race_year"], format='%Y')
+df_f1_ranks = df_f1_ranks.sort_values(by='points', ascending=True)
 
-df_f1_ranks = df_f1_ranks.sort_values(by=['race_date', 'points'], ascending=[True, False])
+fig = go.Figure()
 
-df_f1_ranks_agg_pilotos = df_f1_ranks.groupby(by=['driver_name', 'race_name', 'race_date', 'race_year'], sort=False, as_index=False).sum()
+driver_list = sorted(list(df_f1_ranks['driver_name'].unique()))
+race_list = sorted(list(df_f1_ranks['race_name'].unique()))
+year_list = sorted(list(df_f1_ranks['race_year'].unique()), reverse=True)
 
-raceplot_1 = barplot(df_f1_ranks_agg_pilotos,  item_column='driver_name',  extra_item='race_name', value_column='points', time_column='race_date', top_entries=10)
-fig_1=raceplot_1.plot(item_label = 'Piloto', 
-                  value_label = 'Puntos', 
-                  time_label = 'Carrera: ',
-                  frame_duration = 300, 
-                  date_format='%Y-%m-%d', 
-                  orientation='horizontal'
+#color_list = px.colors.n_colors('rgb(0, 0, 0)', 'rgb(255, 255, 255)', len(driver_list), colortype='rgb')
+#colors = dict(zip(driver_list, color_list))
+
+for race, year in zip(race_list, year_list):
+    fig.add_trace(
+        go.Bar(
+            x = df_f1_ranks['points'][(df_f1_ranks['race_name']==race) & (df_f1_ranks['race_year']==year) & (df_f1_ranks['points']>0)],
+            y = df_f1_ranks['driver_name'][(df_f1_ranks['race_name']==race) & (df_f1_ranks['race_year']==year) & (df_f1_ranks['points']>0)],
+            name = race, 
+            visible = True, orientation='h'
+        )
+    )
+    
+    
+buttons_1 = []
+
+for i, race in enumerate(race_list):
+    args = [False] * len(race_list)
+    args[i] = True
+    
+    button_1 = dict(label = race,
+                  method = "update",
+                  args=[{"visible": args}])
+    
+    buttons_1.append(button_1)
+    
+    
+buttons_2 = []
+
+for i, year in enumerate(year_list):
+    args = [False] * len(year_list)
+    args[i] = True
+    
+    button_2 = dict(label = year,
+                  method = "update",
+                  args=[{"visible": args}])
+    
+    buttons_2.append(button_2)
+    
+    
+fig.update_layout(
+    updatemenus=[dict(
+                    active=0,
+                    type="dropdown",
+                    buttons=buttons_1,
+                    x = 0,
+                    y = 1.1,
+                    xanchor = 'left',
+                    yanchor = 'bottom'
+                ), 
+                dict(
+                    active=0,
+                    type="dropdown",
+                    buttons=buttons_2,
+                    x = 0.5,
+                    y = 1.1,
+                    xanchor = 'left',
+                    yanchor = 'bottom'
+                )
+                ], 
+    autosize=False,
+    width=1000,
+    height=800,
 )
-fig_1.update_layout(
-                title='Top 10 - Pilotos de F1',
-                autosize=False,
-                width=1000,
-                height=800,
-                paper_bgcolor="lightgray",
-)
-fig_1.update_layout(
-    font_family="Courier New",
-    font_color="black",
-    title_font_family="Times New Roman",
-    title_font_color="black",
-    legend_title_font_color="black"
-)
-st.plotly_chart(fig_1, use_container_width=True)
+
+fig.update_xaxes(title_text='Points')
+fig.update_yaxes(title_text='Driver')
+
+st.plotly_chart(fig, use_container_width=True)
 
 st.markdown('**Bueno, y qué sería de un piloto sin su escudería...**')
 st.markdown('Aquí podrás conocer los fabricantes de los autos más rápidos de la F1')
