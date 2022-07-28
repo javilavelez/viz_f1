@@ -7,7 +7,7 @@ from raceplotly.plots import barplot
 
 st.title("Races are won at the track. Championships are won at the factory - Mercedes (2019)")
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
-st.markdown('Después de explorar las visualizaciones sabrás quienes son los pilotos más rápidos del mundo, cómo fue su evolución en el deporte y también quienes son los fabricantes (escuderías) que conforman ese *#DreamTeam*.')
+st.markdown('Después de explorar las visualizaciones sabrás quienes son los pilotos más rápidos del mundo, cómo fue su evolución en el deporte y también quiénes son los fabricantes (escuderías) que conforman ese *#DreamTeam*.')
 
 # Visualization
 
