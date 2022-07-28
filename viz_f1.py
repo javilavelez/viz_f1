@@ -5,14 +5,13 @@ import matplotlib.pyplot as plt
 from matplotlib import cm
 from raceplotly.plots import barplot
 
-st.title("Los pilotos y fabricantes de la F1 a través del tiempo)")
-st.markdown("***Races are won at the track. Championships are won at the factory - Mercedes (2019)***")
+st.title("Races are won at the track. Championships are won at the factory - Mercedes (2019)")
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
-st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 1951 hasta la última temporada de 2021.')
+st.markdown('Después de explorar las visualizaciones sabrás quienes son los pilotos más rápidos del mundo, cómo fue su evolución en el deporte y también quienes son los fabricantes (escuderías) que conforman ese *#DreamTeam*.')
 
 # Visualization
 
-st.markdown('*¿Sabes quienes han sido los pilotos que más campeonatos mundiales han ganado?*')
+st.markdown('**¿Sabes quiénes han sido los pilotos que más campeonatos mundiales han ganado?**')
 st.markdown('¡Descúbrelo en la siguiente visualización!')
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
@@ -67,7 +66,7 @@ fig_2.update_layout(
 )
 st.plotly_chart(fig_2, use_container_width=True)
 
-st.markdown('*¿No te gustaría saber cómo fue su evolución en el año para llegar a ser campeón?*')
+st.markdown('**¿No te gustaría saber cómo fue su evolución en el año para llegar a ser campeón?**')
 st.markdown('En esta visualización encontrarás cuántos puntos ganó cada piloto en cada uno de los Grand Pix que se corrieron durante ese año.')
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
@@ -109,10 +108,8 @@ fig_1.update_layout(
 )
 st.plotly_chart(fig_1, use_container_width=True)
 
-st.markdown('*Bueno, y qué sería de un piloto sin su escudería...*')
-st.markdown('Aquí podrás conocer los fabricantes de autos de la F1 que más campeonatos han ganado.')
-
-st.markdown("***Capeonatos ganados por escuderias 1951-2021***")
+st.markdown('**Bueno, y qué sería de un piloto sin su escudería...**')
+st.markdown('Aquí podrás conocer los fabricantes de los autos más rápidos de la F1')
 
 raceplot_3 = barplot(df_f1_ranks_agg_escuederia_campeones,  item_column='cons_name',  value_column='points', time_column='full_date', top_entries=5)
 fig_3=raceplot_3.plot(item_label = 'Escuderias', 
