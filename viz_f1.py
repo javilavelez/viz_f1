@@ -16,54 +16,12 @@ st.markdown('La mayoría de los circuitos de carreras donde se celebran los Gran
 st.markdown('A su vez, los automóviles utilizados son monoplazas con la última tecnología disponible, siempre limitadas por un reglamento técnico; algunas mejoras que fueron desarrolladas en la Fórmula 1 terminaron siendo utilizadas en automóviles comerciales, como el freno de disco.')
 st.markdown('El inicio de la Fórmula 1 moderna se remonta al año 1950, en el que participaron escuderías como Ferrari, Alfa Romeo y Maserati, algunas reemplazadas por otras nuevas como McLaren, Williams y Red Bull.')
 st.markdown('Por su parte, los pilotos deben contar con la superlicencia de la FIA para competir, que se obtiene por los resultados en otros campeonatos.')
-
-st.markdown('*El siguiente proyecto tiene como propósito ilustrar la trayectoria de los pilotos y fabricantes de autos de la F1 a través del tiempo.*')
-
-st.markdown("**Características del dominio**")
-st.markdown('El gráfico se realizará para:')
-st.markdown('1. Todas las personas (hombres, mujeres y no binarios)')
-st.markdown('2. Personas conocedoras del deporte, específicamente de cómo se determinan los points por cada Grand Pix del año. (Gráfica realizada para personas que conocen que se reinician los puntos de forma anual y la forma en la que se asignan los puntos por carrera.)')
-st.markdown('3. Personas con conocimiento sobre los números (tipo) y sus aplicaciones (semántica), es decir, saben que dependiendo del contexto el número puede ser año así como también puede significar cantidad de puntos ganados en la carrera. (Gráfica no diseñada para niños que no saben leer o escribir, por ejemplo).')
-
-st.markdown("**Abstracción de tareas**")
-st.markdown('1. Presentar la evolución de pilotos en la obtención de puntos por año y su trayectoria 2004-2021')
-st.markdown('2. Ilustrar la cantidad de Campeonatos Mundiales ganados por piloto, fabricante y nacionalidad de la escudería y del piloto para el peridoo 1950-2021')
-st.markdown('3. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
-st.markdown('4. Identificar al top 10 de pilotos desde 1950 - 2021.')
-st.markdown('5. Conocer de qué país son los autos y pilotos con más Campeonatos Mundiales ganados.')
-
-st.markdown("**Abstracción de datos**")
 st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 2004 hasta la última temporada de 2021.')
-
-st.markdown("**Descripción del dataset**")
-
-dataset = [
-	['raceId','Number','ID de la carrera'],
-	['race_year','Number','Año de la carrera'],
-	['round','Number','Round del año'],
-	['race_name','String','Nombre de la carrera'],
-	['race_date','Date','Fecha de la carrera'],
-	['driverId','Number','ID del piloto'],
-	['driv_name','String','Nombre del piloto'],
-	['driv_surname','String','Apellido del piloto'],
-	['driv_dob','Date','Fecha de nacimiento del piloto'],
-	['driv_nationality','String','Nacionalidad del piloto'],
-	['constructorId','Number','ID del fabricante'],
-	['cons_name','String','Nombre del fabricante'],
-	['cons_nationality','String','Nacionalidad del fabricante'],
-	['start_position','Number','Posición inicial del piloto en la carrera'],
-	['final_position','Number','Posición final del piloto en la carrera'],
-	['rank','Number','Ranking del piloto']
-        ]
-
-df_data = pd.DataFrame(dataset, columns=['Variable','Tipo','Descripción'])
-st.table(df_data)
 
 # Visualization
 st.markdown("**Visualizacion del dataset**")
 
-
-st.markdown("***Puntos ganados por piltos en cada carrera***")
+st.markdown("***Puntos ganados por pilotos en cada carrera 2004-2021***")
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
 df_f1_ranks['driver_name'] = df_f1_ranks['driv_name'] + ' ' + df_f1_ranks['driv_surname']
@@ -105,7 +63,7 @@ fig_1.update_layout(
 st.plotly_chart(fig_1, use_container_width=True)
 
 
-st.markdown("***Campeonatos ganados por pilotos***")
+st.markdown("***Campeonatos ganados por pilotos 1951-2021***")
 
 
 df_f1_ranks = pd.read_csv('./drivers_f1.csv', sep=';')
@@ -162,7 +120,7 @@ fig_2.update_layout(
 st.plotly_chart(fig_2, use_container_width=True)
 
 
-st.markdown("***Campeonatos ganados por naciones de pilotos***")
+st.markdown("***Campeonatos ganados por naciones de pilotos 1951-2021 ***")
 
 raceplot_5 = barplot(df_f1_ranks_agg_pais_pilotos_campeones,  item_column='driv_nationality',  value_column='points', time_column='full_date', top_entries=5)
 fig_5=raceplot_5.plot(item_label = 'Paises', 
@@ -189,7 +147,7 @@ fig_5.update_layout(
 st.plotly_chart(fig_5, use_container_width=True)
 
 
-st.markdown("***Capeonatos ganados por escuederias***")
+st.markdown("***Capeonatos ganados por escuderias 1951-2021***")
 
 raceplot_3 = barplot(df_f1_ranks_agg_escuederia_campeones,  item_column='cons_name',  value_column='points', time_column='full_date', top_entries=5)
 fig_3=raceplot_3.plot(item_label = 'Escuderias', 
@@ -216,7 +174,7 @@ fig_3.update_layout(
 st.plotly_chart(fig_3, use_container_width=True)
 
 
-st.markdown("***Campeonatos ganados por naciones de escuderias***")
+st.markdown("***Campeonatos ganados por naciones de escuderias 1951-2021***")
 
 raceplot_4 = barplot(df_f1_ranks_agg_pais_escuederia_campeones,  item_column='cons_nationality',  value_column='points', time_column='full_date', top_entries=5)
 fig_4=raceplot_4.plot(item_label = 'Paises', 
@@ -241,3 +199,46 @@ fig_4.update_layout(
     legend_title_font_color="black"
 )
 st.plotly_chart(fig_4, use_container_width=True)
+
+st.markdown('*El proyecto tuvo como propósito ilustrar la trayectoria de los pilotos y fabricantes de autos de la F1 a través del tiempo.*')
+
+st.markdown("**Características del dominio**")
+st.markdown('El gráfico fue realizado para:')
+st.markdown('1. Todas las personas (hombres, mujeres y no binarios)')
+st.markdown('2. Personas conocedoras del deporte, específicamente de cómo se determinan los points por cada Grand Pix del año. (Gráfica realizada para personas que conocen que se reinician los puntos de forma anual y la forma en la que se asignan los puntos por carrera.)')
+st.markdown('3. Personas con conocimiento sobre los números (tipo) y sus aplicaciones (semántica), es decir, saben que dependiendo del contexto el número puede ser año así como también puede significar cantidad de puntos ganados en la carrera. (Gráfica no diseñada para niños que no saben leer o escribir, por ejemplo).')
+
+st.markdown("**Abstracción de tareas**")
+st.markdown('1. Presentar la evolución de pilotos en la obtención de puntos por año y su trayectoria 2004-2021')
+st.markdown('2. Ilustrar la cantidad de Campeonatos Mundiales ganados por piloto, fabricante y nacionalidad de la escudería y del piloto para el peridoo 1950-2021')
+st.markdown('3. Descubrir si los mejores fabricantes de autos han cambiado en el tiempo.')
+st.markdown('4. Identificar al top 10 de pilotos desde 1950 - 2021.')
+st.markdown('5. Conocer de qué país son los autos y pilotos con más Campeonatos Mundiales ganados.')
+
+st.markdown("**Abstracción de datos**")
+st.markdown('El dataset contiene la información sobre las carreras de Fórmula 1, los pilotos, la clasificación, los circuitos y los campeonatos desde 2004 hasta la última temporada de 2021.')
+
+st.markdown("**Descripción del dataset**")
+
+dataset = [
+	['raceId','Number','ID de la carrera'],
+	['race_year','Number','Año de la carrera'],
+	['round','Number','Round del año'],
+	['race_name','String','Nombre de la carrera'],
+	['race_date','Date','Fecha de la carrera'],
+	['driverId','Number','ID del piloto'],
+	['driv_name','String','Nombre del piloto'],
+	['driv_surname','String','Apellido del piloto'],
+	['driv_dob','Date','Fecha de nacimiento del piloto'],
+	['driv_nationality','String','Nacionalidad del piloto'],
+	['constructorId','Number','ID del fabricante'],
+	['cons_name','String','Nombre del fabricante'],
+	['cons_nationality','String','Nacionalidad del fabricante'],
+	['start_position','Number','Posición inicial del piloto en la carrera'],
+	['final_position','Number','Posición final del piloto en la carrera'],
+	['rank','Number','Ranking del piloto']
+        ]
+
+df_data = pd.DataFrame(dataset, columns=['Variable','Tipo','Descripción'])
+st.table(df_data)
+
