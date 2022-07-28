@@ -143,5 +143,3 @@ fig_3.update_layout(
 st.plotly_chart(fig_3, use_container_width=True)
 
 st.markdown("**Realizado por Estudiantes MIA: Juliana Ávila y Aquiles Martinez**")
-st.markdown("*Juliana Ávila*")
-st.markdown("*Aquiles Martinez*")
