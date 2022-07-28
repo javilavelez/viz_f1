@@ -115,9 +115,6 @@ fig_1.update_layout(
 )
 st.plotly_chart(fig_1, use_container_width=True)
 
-fab = Image.open('fabric.PNG')
-st.image(fab)
-
 st.markdown('**Bueno, y qué sería de un piloto sin su escudería...**')
 st.markdown('Aquí podrás conocer los fabricantes de los autos más rápidos de la F1')
 
