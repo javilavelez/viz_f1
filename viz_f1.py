@@ -4,8 +4,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from raceplotly.plots import barplot
+from PIL import Image
 
+image = Image.open('f1-wp.jpg')
+st.image(image')
 st.title("Races are won at the track. Championships are won at the factory - Mercedes (2019)")
+         
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
 st.markdown('Después de explorar las visualizaciones sabrás quienes son los pilotos más rápidos del mundo, cómo fue su evolución en el deporte y también quiénes son los fabricantes (escuderías) que conforman ese *#DreamTeam*.')
 
