@@ -6,13 +6,16 @@ from matplotlib import cm
 from raceplotly.plots import barplot
 from PIL import Image
 
+st.title("Races are won at the track. Championships are won at the factory - Mercedes (2019)")
 f1 = Image.open('f1-wp.PNG')
 st.image(f1)
-st.title("Races are won at the track. Championships are won at the factory - Mercedes (2019)")
+
 st.markdown('La F1 es un deporte global que siguen millones de personas en todo el mundo y es fascinante ver cómo los pilotos se ponen al límite en estos vehículos para convertirse en los corredores más rápidos del mundo.')
 st.markdown('Después de explorar las visualizaciones sabrás quienes son los pilotos más rápidos del mundo, cómo fue su evolución en el deporte y también quiénes son los fabricantes (escuderías) que conforman ese *#DreamTeam*.')
 
 # Visualization
+driv = Image.open('drivers.PNG')
+st.image(driv)
 
 st.markdown('**¿Sabes quiénes han sido los pilotos que más campeonatos mundiales han ganado?**')
 st.markdown('¡Descúbrelo en la siguiente visualización!')
@@ -110,6 +113,9 @@ fig_1.update_layout(
     legend_title_font_color="black"
 )
 st.plotly_chart(fig_1, use_container_width=True)
+
+fab = Image.open('fabric.PNG')
+st.image(fab)
 
 st.markdown('**Bueno, y qué sería de un piloto sin su escudería...**')
 st.markdown('Aquí podrás conocer los fabricantes de los autos más rápidos de la F1')
