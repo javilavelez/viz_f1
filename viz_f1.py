@@ -112,7 +112,7 @@ fig_2.update_layout(
 st.plotly_chart(fig_2, use_container_width=True)
 
 
-st.markdown("***Campeonatos ganados por naciones de pilotos 1951-2021 ***")
+st.markdown("***Campeonatos ganados por naciones de pilotos 1951-2021***")
 
 raceplot_5 = barplot(df_f1_ranks_agg_pais_pilotos_campeones,  item_column='driv_nationality',  value_column='points', time_column='full_date', top_entries=5)
 fig_5=raceplot_5.plot(item_label = 'Paises', 
